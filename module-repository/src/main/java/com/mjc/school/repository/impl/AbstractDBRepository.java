@@ -14,7 +14,7 @@ import java.util.Optional;
 public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implements BaseRepository<T, K> {
     private final Class<T> entityClass;
     @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+    protected EntityManagerFactory entityManagerFactory;
 
     public AbstractDBRepository() {
         ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
