@@ -52,22 +52,9 @@ public class NewsModel implements BaseEntity<Long> {
                      String content,
                      LocalDateTime createDate,
                      LocalDateTime lastUpdateDate,
-                     AuthorModel author) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createDate = createDate;
-        this.lastUpdateDate = lastUpdateDate;
-        this.author = author;
-    }
-
-    public NewsModel(Long id,
-                     String title,
-                     String content,
-                     LocalDateTime createDate,
-                     LocalDateTime lastUpdateDate,
                      AuthorModel author,
-                     List<TagModel> tags) {
+                     List<TagModel> tags,
+                     List<CommentModel> comments) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -75,6 +62,7 @@ public class NewsModel implements BaseEntity<Long> {
         this.lastUpdateDate = lastUpdateDate;
         this.author = author;
         this.tags = tags;
+        this.comments = comments;
     }
 
     @Override
@@ -120,13 +108,12 @@ public class NewsModel implements BaseEntity<Long> {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-
     public AuthorModel getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorModel authorModel) {
-        this.author = authorModel;
+    public void setAuthor(AuthorModel author) {
+        this.author = author;
     }
 
     public List<TagModel> getTags() {
@@ -137,28 +124,44 @@ public class NewsModel implements BaseEntity<Long> {
         this.tags = tags;
     }
 
+    public List<CommentModel> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentModel> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        NewsModel newsModel = (NewsModel) o;
-        return Objects.equals(id, newsModel.id) && Objects.equals(title, newsModel.title) && Objects.equals(content, newsModel.content) && Objects.equals(createDate, newsModel.createDate) && Objects.equals(lastUpdateDate, newsModel.lastUpdateDate) && Objects.equals(author, newsModel.author) && Objects.equals(tags, newsModel.tags);
+        if (!(o instanceof NewsModel newsModel)) return false;
+        return Objects.equals(id, newsModel.id) &&
+                Objects.equals(title, newsModel.title) &&
+                Objects.equals(content, newsModel.content) &&
+                Objects.equals(createDate, newsModel.createDate) &&
+                Objects.equals(lastUpdateDate, newsModel.lastUpdateDate) &&
+                Objects.equals(author, newsModel.author) &&
+                Objects.equals(tags, newsModel.tags) &&
+                Objects.equals(comments, newsModel.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, createDate, lastUpdateDate, author, tags);
+        return Objects.hash(id, title, content, createDate, lastUpdateDate, author, tags, comments);
     }
 
     @Override
     public String toString() {
-        return "News{" +
+        return "NewsModel{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", createDate=" + createDate +
                 ", lastUpdateDate=" + lastUpdateDate +
                 ", author=" + author +
+                ", tags=" + tags +
+                ", comments=" + comments +
                 '}';
     }
 }
