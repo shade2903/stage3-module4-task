@@ -21,15 +21,17 @@ import java.util.Optional;
 public class TagService implements BaseService<TagDtoRequest, TagDtoResponse,Long> {
 
     private final BaseRepository<TagModel, Long> tagRepository;
+    private final TagMapper tagMapper;
 
     @Autowired
-    public TagService(BaseRepository<TagModel, Long> tagRepository) {
+    public TagService(BaseRepository<TagModel, Long> tagRepository, TagMapper tagMapper) {
         this.tagRepository = tagRepository;
+        this.tagMapper = tagMapper;
     }
 
     @Override
     public List<TagDtoResponse> readAll() {
-        return tagRepository.readAll().stream().map(TagMapper.INSTANCE::tagToDtoResponse).toList();
+        return tagMapper.modelListToDtoListResponse(tagRepository.readAll());
     }
 
     @Override
@@ -37,7 +39,7 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse,Lon
     public TagDtoResponse readById(Long id) {
         Optional<TagModel> tagModel = tagRepository.readById(id);
         if(tagModel.isPresent()){
-            return TagMapper.INSTANCE.tagToDtoResponse(tagModel.get());
+            return tagMapper.tagToDtoResponse(tagModel.get());
         }
         throw new NotFoundException(String.format(ErrorCode.NOT_FOUND_DATA.getMessage()));
     }
@@ -45,16 +47,16 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse,Lon
     @Override
     @ValidateParam
     public TagDtoResponse create(TagDtoRequest createRequest) {
-        return TagMapper.INSTANCE.tagToDtoResponse(
-                tagRepository.create(TagMapper.INSTANCE.tagFromDtoRequest(createRequest)));
+        return tagMapper.tagToDtoResponse(
+                tagRepository.create(tagMapper.tagFromDtoRequest(createRequest)));
     }
 
     @Override
     @ValidateParam
     public TagDtoResponse update(TagDtoRequest updateRequest) {
         if(tagRepository.existById(updateRequest.getId())){
-            TagModel tagModel = tagRepository.update(TagMapper.INSTANCE.tagFromDtoRequest(updateRequest));
-            return TagMapper.INSTANCE.tagToDtoResponse(tagModel);
+            TagModel tagModel = tagRepository.update(tagMapper.tagFromDtoRequest(updateRequest));
+            return tagMapper.tagToDtoResponse(tagModel);
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.TAG, updateRequest.getId()));

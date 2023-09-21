@@ -9,13 +9,15 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
-    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
+    List<AuthorDtoResponse> modelListToDtoList(List<AuthorModel> modelList);
 
-    @Mappings(value = {@Mapping(target = "createDate", ignore = true),
-            @Mapping(target = "lastUpdateDate", ignore = true),
-            @Mapping(target = "news", ignore = true)})
+    @Mapping(target = "createDate", ignore = true)
+    @Mapping(target = "lastUpdateDate", ignore = true)
+    @Mapping(target = "news", ignore = true)
     AuthorModel authorFromDtoRequest(AuthorDtoRequest request);
 
     AuthorDtoResponse authorToDtoResponse(AuthorModel model);

@@ -13,17 +13,15 @@ public class NewsDtoRequest {
     private String title;
     private String content;
     private Long authorId;
-    private List<Long> tagsId;
+    private List<Long> tagsIds;
 
-    private List<Long> commentId;
 
-    public NewsDtoRequest(Long id, String title, String content, Long authorId, List<Long> tagsId, List<Long> commentId) {
+    public NewsDtoRequest(Long id, String title, String content, Long authorId, List<Long> tagsIds) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.authorId = authorId;
-        this.tagsId = tagsId;
-        this.commentId = commentId;
+        this.tagsIds = tagsIds;
     }
 
     public NewsDtoRequest() {
@@ -61,32 +59,24 @@ public class NewsDtoRequest {
         this.authorId = authorId;
     }
 
-    public List<Long> getTagsId() {
-        return tagsId;
+    public List<Long> getTagsIds() {
+        return tagsIds;
     }
 
-    public void setTagsId(List<Long> tagsId) {
-        this.tagsId = tagsId;
-    }
-
-    public List<Long> getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(List<Long> commentId) {
-        this.commentId = commentId;
+    public void setTagsIds(List<Long> tagsIds) {
+        this.tagsIds = tagsIds;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NewsDtoRequest that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(authorId, that.authorId) && Objects.equals(tagsId, that.tagsId) && Objects.equals(commentId, that.commentId);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(authorId, that.authorId) && Objects.equals(tagsIds, that.tagsIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, authorId, tagsId, commentId);
+        return Objects.hash(id, title, content, authorId, tagsIds);
     }
 
     @Override
@@ -96,8 +86,7 @@ public class NewsDtoRequest {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", authorId=" + authorId +
-                ", tagsId=" + tagsId +
-                ", commentId=" + commentId +
+                ", tagsId=" + tagsIds +
                 '}';
     }
 }

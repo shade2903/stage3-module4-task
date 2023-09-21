@@ -20,17 +20,21 @@ import java.util.Optional;
 @Service
 public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
     private final AuthorRepositoryImpl authorRepository;
+    private final AuthorMapper authorMapper;
 
-    public AuthorService(AuthorRepositoryImpl authorRepository) {
-        this.authorRepository = authorRepository;
-    }
 
     @Autowired
+    public AuthorService(AuthorRepositoryImpl authorRepository, AuthorMapper authorMapper) {
+        this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
+    }
+
+
 
 
     @Override
     public List<AuthorDtoResponse> readAll() {
-        return authorRepository.readAll().stream().map(AuthorMapper.INSTANCE::authorToDtoResponse).toList();
+        return authorMapper.modelListToDtoList(authorRepository.readAll());
 
     }
 
@@ -39,7 +43,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     public AuthorDtoResponse readById(Long id) {
         Optional<AuthorModel> authorModel = authorRepository.readById(id);
         if (authorModel.isPresent()) {
-            return AuthorMapper.INSTANCE.authorToDtoResponse(authorModel.get());
+            return authorMapper.authorToDtoResponse(authorModel.get());
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, id));
@@ -48,16 +52,16 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     @Override
     @ValidateParam
     public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
-        return AuthorMapper.INSTANCE.authorToDtoResponse(
-                authorRepository.create(AuthorMapper.INSTANCE.authorFromDtoRequest(createRequest)));
+        return authorMapper.authorToDtoResponse(
+                authorRepository.create(authorMapper.authorFromDtoRequest(createRequest)));
     }
 
     @Override
     @ValidateParam
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
         if(authorRepository.existById(updateRequest.getId())){
-            AuthorModel updateAuthor = authorRepository.update(AuthorMapper.INSTANCE.authorFromDtoRequest(updateRequest));
-            return AuthorMapper.INSTANCE.authorToDtoResponse(updateAuthor);
+            AuthorModel updateAuthor = authorRepository.update(authorMapper.authorFromDtoRequest(updateRequest));
+            return authorMapper.authorToDtoResponse(updateAuthor);
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, updateRequest.getId()));

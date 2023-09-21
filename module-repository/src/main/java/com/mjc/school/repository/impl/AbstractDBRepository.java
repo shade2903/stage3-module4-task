@@ -73,4 +73,9 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
     public boolean existById(K id) {
         return readById(id).isPresent();
     }
+
+    @Override
+    public T getReference(K id) {
+        return entityManagerFactory.createEntityManager().getReference(this.entityClass, id);
+    }
 }

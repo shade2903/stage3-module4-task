@@ -14,28 +14,28 @@ public class NewsDtoResponse {
     private String content;
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
-    private Long authorId;
+    private AuthorDtoResponse authorDto;
 
-    private List<Long> tagsId;
+    private List<TagDtoResponse> tagsDto;
 
-    private List<Long> commentId;
+    private List<CommentDtoResponse> commentsDto;
 
     public NewsDtoResponse(Long id,
                            String title,
                            String content,
                            LocalDateTime createDate,
                            LocalDateTime lastUpdateDate,
-                           Long authorId,
-                           List<Long> tagsId,
-                           List<Long> commentId) {
+                           AuthorDtoResponse authorDto,
+                           List<TagDtoResponse> tagsDto,
+                           List<CommentDtoResponse> commentsDto) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
-        this.authorId = authorId;
-        this.tagsId = tagsId;
-        this.commentId = commentId;
+        this.authorDto = authorDto;
+        this.tagsDto = tagsDto;
+        this.commentsDto = commentsDto;
     }
 
     public NewsDtoResponse() {
@@ -81,40 +81,41 @@ public class NewsDtoResponse {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public Long getAuthorId() {
-        return authorId;
+    public AuthorDtoResponse getAuthorDto() {
+        return authorDto;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
+    public void setAuthorDto(AuthorDtoResponse authorDto) {
+        this.authorDto = authorDto;
     }
 
-    public List<Long> getTagsId() {
-        return tagsId;
+    public List<TagDtoResponse> getTagsDto() {
+        return tagsDto;
     }
 
-    public void setTagsId(List<Long> tagsId) {
-        this.tagsId = tagsId;
+    public void setTagsDto(List<TagDtoResponse> tagsDto) {
+        this.tagsDto = tagsDto;
     }
 
-    public List<Long> getCommentId() {
-        return commentId;
+    public List<CommentDtoResponse> getCommentsDto() {
+        return commentsDto;
     }
 
-    public void setCommentId(List<Long> commentId) {
-        this.commentId = commentId;
+    public void setCommentsDto(List<CommentDtoResponse> commentsDto) {
+        this.commentsDto = commentsDto;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NewsDtoResponse that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(createDate, that.createDate) && Objects.equals(lastUpdateDate, that.lastUpdateDate) && Objects.equals(authorId, that.authorId) && Objects.equals(tagsId, that.tagsId) && Objects.equals(commentId, that.commentId);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(createDate, that.createDate) && Objects.equals(lastUpdateDate, that.lastUpdateDate) && Objects.equals(authorDto, that.authorDto) && Objects.equals(tagsDto, that.tagsDto) && Objects.equals(commentsDto, that.commentsDto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, createDate, lastUpdateDate, authorId, tagsId, commentId);
+        return Objects.hash(id, title, content, createDate, lastUpdateDate, authorDto, tagsDto, commentsDto);
     }
 
     @Override
@@ -125,9 +126,9 @@ public class NewsDtoResponse {
                 ", content='" + content + '\'' +
                 ", createDate=" + createDate +
                 ", lastUpdateDate=" + lastUpdateDate +
-                ", authorId=" + authorId +
-                ", tagsId=" + tagsId +
-                ", commentId=" + commentId +
+                ", authorDto=" + authorDto +
+                ", tagsDto=" + tagsDto +
+                ", commentsDto=" + commentsDto +
                 '}';
     }
 }

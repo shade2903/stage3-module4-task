@@ -25,15 +25,18 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     private final BaseRepository<NewsModel, Long> newsRepository;
     private final BaseRepository<AuthorModel, Long> authorRepository;
 
+    private final NewsMapper newsMapper;
+
     @Autowired
-    public NewsService(BaseRepository<NewsModel, Long> newsRepository, BaseRepository<AuthorModel, Long> authorRepository) {
+    public NewsService(BaseRepository<NewsModel, Long> newsRepository, BaseRepository<AuthorModel, Long> authorRepository, NewsMapper newsMapper) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
+        this.newsMapper = newsMapper;
     }
 
     @Override
     public List<NewsDtoResponse> readAll() {
-        return newsRepository.readAll().stream().map(NewsMapper.INSTANCE::newsToDtoResponse).toList();
+        return newsMapper.modelListToDtoList(newsRepository.readAll());
     }
 
     @Override
@@ -41,7 +44,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     public NewsDtoResponse readById(Long id) {
         Optional<NewsModel> newsModel = newsRepository.readById(id);
         if (newsModel.isPresent()) {
-            return NewsMapper.INSTANCE.newsToDtoResponse(newsModel.get());
+            return newsMapper.newsToDtoResponse(newsModel.get());
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, id));
@@ -54,8 +57,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
             throw new NotFoundException(
                     String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, createRequest.getAuthorId()));
         }
-        NewsModel createNews = NewsMapper.INSTANCE.newsFromDtoRequest(createRequest);
-        return NewsMapper.INSTANCE.newsToDtoResponse(newsRepository.create(createNews));
+        NewsModel createNews = newsMapper.newsFromDtoRequest(createRequest);
+        return newsMapper.newsToDtoResponse(newsRepository.create(createNews));
     }
 
     @Override
@@ -66,8 +69,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
                     String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, updateRequest.getAuthorId()));
         }
         if (newsRepository.existById(updateRequest.getId())) {
-            NewsModel newsModel = newsRepository.update(NewsMapper.INSTANCE.newsFromDtoRequest(updateRequest));
-            return NewsMapper.INSTANCE.newsToDtoResponse(newsModel);
+            NewsModel newsModel = newsRepository.update(newsMapper.newsFromDtoRequest(updateRequest));
+            return newsMapper.newsToDtoResponse(newsModel);
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.NEWS_ID, updateRequest.getId()));

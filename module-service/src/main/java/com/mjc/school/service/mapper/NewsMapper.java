@@ -1,6 +1,9 @@
 package com.mjc.school.service.mapper;
 
 
+import com.mjc.school.repository.AuthorRepository;
+import com.mjc.school.repository.CommentRepository;
+import com.mjc.school.repository.TagRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.service.dto.NewsDtoRequest;
@@ -9,51 +12,41 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring",uses = {TagMapper.class, AuthorMapper.class})
-public interface NewsMapper {
-    NewsMapper INSTANCE = Mappers.getMapper(NewsMapper.class);
+@Mapper(componentModel = "spring",uses = {TagMapper.class,
+        AuthorMapper.class,
+        CommentMapper.class})
+public abstract class  NewsMapper {
+ @Autowired
+ protected AuthorRepository authorRepository;
+ @Autowired
+ protected TagRepository tagRepository;
+ @Autowired
+ protected CommentRepository commentRepository;
+
+ public abstract List<NewsDtoResponse> modelListToDtoList(List<NewsModel> modelList);
 
     @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "lastUpdateDate", ignore = true)
-    @Mapping(target = "author.id", source = "authorId")
-    @Mapping(source = "tagsId", target = "tags", qualifiedByName = "tagModelFromTagId")
-    NewsModel newsFromDtoRequest(NewsDtoRequest request);
-
-    @Named("tagModelFromTagId")
-    default List<TagModel> tagModelFormTagId(List<Long> tagIdList) {
-        List<TagModel> tags = new ArrayList<>();
-        if (tagIdList != null) {
-            tagIdList.stream().forEach(
-                    o -> {
-                        TagModel tag = new TagModel();
-                        tag.setId(o);
-                        tags.add(tag);
-                    }
-            );
-        }
-        return tags;
-    }
-    @Mapping(target = "authorId", source = "author.id")
-    @Mapping(target = "tagsId", source = "tags", qualifiedByName = "tagModelToTagId")
-    NewsDtoResponse newsToDtoResponse(NewsModel model);
+    @Mapping(target = "author", expression =
+            "java(authorRepository.getReference(request.getAuthorId()))")
+    @Mapping(target = "tags", expression =
+            "java(request.getTagsIds().stream().map(tagId -> tagRepository.getReference(tagId)).toList()))")
+    public abstract NewsModel newsFromDtoRequest(NewsDtoRequest request);
 
 
-    @Named("tagModelToTagId")
-    default List<Long> tagModelToTagId(List<TagModel> tags){
-        List<Long> tagsListId = new ArrayList<>();
-        if(tags!= null){
-            tags.stream().forEach(
-                    o -> {
-                       tagsListId.add(o.getId());
-                    });
-        }
-        return tagsListId;
-    }
+
+    @Mapping(source = "author", target = "authorDto")
+    @Mapping(source = "tags", target = "tagsDto")
+    @Mapping(source = "comments", target = "commentsDto")
+    public abstract NewsDtoResponse newsToDtoResponse(NewsModel model);
+
+
 
 
 }
