@@ -1,20 +1,14 @@
 package com.mjc.school.service.mapper;
 
-
 import com.mjc.school.repository.AuthorRepository;
 import com.mjc.school.repository.CommentRepository;
 import com.mjc.school.repository.TagRepository;
 import com.mjc.school.repository.model.NewsModel;
-import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
 import java.util.List;
 
 

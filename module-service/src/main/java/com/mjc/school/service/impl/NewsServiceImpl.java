@@ -1,10 +1,14 @@
 package com.mjc.school.service.impl;
 
 
+import com.mjc.school.repository.AuthorRepository;
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.NewsRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
+import com.mjc.school.repository.query.NewsSearchQueryParams;
 import com.mjc.school.service.BaseService;
+import com.mjc.school.service.NewsService;
 import com.mjc.school.service.annotation.ValidateId;
 import com.mjc.school.service.annotation.ValidateParam;
 import com.mjc.school.service.constants.Constants;
@@ -13,6 +17,7 @@ import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.exception.ErrorCode;
 import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.NewsMapper;
+import com.mjc.school.service.query.NewsQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +26,13 @@ import java.util.Optional;
 
 @Service
 
-public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
-    private final BaseRepository<NewsModel, Long> newsRepository;
-    private final BaseRepository<AuthorModel, Long> authorRepository;
-
+public class NewsServiceImpl implements NewsService {
+    private final AuthorRepository newsRepository;
+    private final NewsRepository authorRepository;
     private final NewsMapper newsMapper;
 
     @Autowired
-    public NewsService(BaseRepository<NewsModel, Long> newsRepository, BaseRepository<AuthorModel, Long> authorRepository, NewsMapper newsMapper) {
+    public NewsServiceImpl(AuthorRepository newsRepository, NewsRepository authorRepository, NewsMapper newsMapper) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
         this.newsMapper = newsMapper;
@@ -85,5 +89,17 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.NEWS_ID, id));
+    }
+
+    @Override
+    public List<NewsDtoResponse> readBySearchParams(NewsQueryParams queryParams) {
+        NewsSearchQueryParams newsSearchQueryParams = new NewsSearchQueryParams(
+                queryParams.tagNames(),
+                queryParams.tagIds(),
+                queryParams.authorName(),
+                queryParams.title(),
+                queryParams.content()
+        );
+        return newsMapper.modelListToDtoList(newsRepository.read);
     }
 }

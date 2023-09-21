@@ -2,7 +2,7 @@ package com.mjc.school.service.mapper;
 
 
 import com.mjc.school.repository.model.CommentModel;
-import com.mjc.school.repository.query.NewsRepository;
+import com.mjc.school.repository.NewsRepository;
 import com.mjc.school.service.dto.CommentDtoRequest;
 import com.mjc.school.service.dto.CommentDtoResponse;
 import org.mapstruct.Mapper;

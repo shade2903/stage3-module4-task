@@ -2,7 +2,7 @@ package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.impl.AuthorRepositoryImpl;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.service.BaseService;
+import com.mjc.school.service.AuthorService;
 import com.mjc.school.service.annotation.ValidateId;
 import com.mjc.school.service.annotation.ValidateParam;
 import com.mjc.school.service.constants.Constants;
@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
+public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepositoryImpl authorRepository;
     private final AuthorMapper authorMapper;
 
 
     @Autowired
-    public AuthorService(AuthorRepositoryImpl authorRepository, AuthorMapper authorMapper) {
+    public AuthorServiceImpl(AuthorRepositoryImpl authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
     }
@@ -75,5 +75,15 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, id));
+    }
+
+    @Override
+    public AuthorDtoResponse readByNewsId(Long newsId) {
+        Optional<AuthorModel> authorModel = authorRepository.readById(newsId);
+        if (authorModel.isPresent()) {
+            return authorMapper.authorToDtoResponse(authorModel.get());
+        }
+        throw new NotFoundException(
+                String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.NEWS_ID, newsId));
     }
 }
