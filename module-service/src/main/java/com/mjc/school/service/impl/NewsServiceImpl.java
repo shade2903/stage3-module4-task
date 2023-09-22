@@ -1,13 +1,10 @@
 package com.mjc.school.service.impl;
 
 
-import com.mjc.school.repository.AuthorRepository;
-import com.mjc.school.repository.BaseRepository;
-import com.mjc.school.repository.NewsRepository;
-import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.impl.AuthorRepositoryImpl;
+import com.mjc.school.repository.impl.NewsRepositoryImpl;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.query.NewsSearchQueryParams;
-import com.mjc.school.service.BaseService;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.annotation.ValidateId;
 import com.mjc.school.service.annotation.ValidateParam;
@@ -27,12 +24,12 @@ import java.util.Optional;
 @Service
 
 public class NewsServiceImpl implements NewsService {
-    private final AuthorRepository newsRepository;
-    private final NewsRepository authorRepository;
+    private final NewsRepositoryImpl newsRepository;
+    private final AuthorRepositoryImpl authorRepository;
     private final NewsMapper newsMapper;
 
     @Autowired
-    public NewsServiceImpl(AuthorRepository newsRepository, NewsRepository authorRepository, NewsMapper newsMapper) {
+    public NewsServiceImpl(NewsRepositoryImpl newsRepository, AuthorRepositoryImpl authorRepository, NewsMapper newsMapper) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
         this.newsMapper = newsMapper;
@@ -100,6 +97,6 @@ public class NewsServiceImpl implements NewsService {
                 queryParams.title(),
                 queryParams.content()
         );
-        return newsMapper.modelListToDtoList(newsRepository.read);
+        return newsMapper.modelListToDtoList(newsRepository.readBySearchParams(newsSearchQueryParams));
     }
 }

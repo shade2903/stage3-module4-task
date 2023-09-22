@@ -1,8 +1,9 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.impl.TagRepositoryImpl;
 import com.mjc.school.repository.model.TagModel;
-import com.mjc.school.service.BaseService;
+
+import com.mjc.school.service.TagService;
 import com.mjc.school.service.annotation.ValidateId;
 import com.mjc.school.service.annotation.ValidateParam;
 import com.mjc.school.service.constants.Constants;
@@ -18,13 +19,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TagService implements BaseService<TagDtoRequest, TagDtoResponse,Long> {
+public class TagServiceImpl implements TagService {
 
-    private final BaseRepository<TagModel, Long> tagRepository;
+    private final TagRepositoryImpl tagRepository;
     private final TagMapper tagMapper;
 
     @Autowired
-    public TagService(BaseRepository<TagModel, Long> tagRepository, TagMapper tagMapper) {
+    public TagServiceImpl(TagRepositoryImpl tagRepository, TagMapper tagMapper) {
         this.tagRepository = tagRepository;
         this.tagMapper = tagMapper;
     }
@@ -70,5 +71,10 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse,Lon
         }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.TAG, id));
+    }
+
+    @Override
+    public List<TagDtoResponse> readByNewsId(Long newsId) {
+        return tagMapper.modelListToDtoListResponse(tagRepository.readByNewsId(newsId));
     }
 }
