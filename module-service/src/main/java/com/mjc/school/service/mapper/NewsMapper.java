@@ -30,8 +30,10 @@ public abstract class  NewsMapper {
     @Mapping(target = "author", expression =
             "java(authorRepository.getReference(request.getAuthorId()))")
     @Mapping(target = "tags", expression =
-            "java(request.getTagsIds().stream().map(tagId -> tagRepository.getReference(tagId)).toList()))")
+            "java(new ArrayList<>(request.getTagsIds().stream().map(tagId -> tagRepository.getReference(tagId)).toList()))")
     public abstract NewsModel newsFromDtoRequest(NewsDtoRequest request);
+
+
 
 
 

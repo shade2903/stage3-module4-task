@@ -5,12 +5,13 @@ import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.repository.NewsRepository;
 import com.mjc.school.repository.query.NewsSearchQueryParams;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Repository
 public class NewsRepositoryImpl extends AbstractDBRepository<NewsModel,Long> implements NewsRepository {
     @Override
     void updatedEntityFields(NewsModel entity, NewsModel updatedEntity) {

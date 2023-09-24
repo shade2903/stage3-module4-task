@@ -12,10 +12,12 @@ import com.mjc.school.service.exception.ErrorCode;
 import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CommentServiceImpl implements CommentService {
     private final CommentRepositoryImpl commentRepository;
     private final CommentMapper commentMapper;

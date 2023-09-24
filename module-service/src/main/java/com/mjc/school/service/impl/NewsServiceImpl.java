@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class NewsServiceImpl implements NewsService {
     private final NewsRepositoryImpl newsRepository;
     private final AuthorRepositoryImpl authorRepository;

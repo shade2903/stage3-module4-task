@@ -17,8 +17,8 @@ public abstract class CommentMapper {
     NewsRepository newsRepository;
     public abstract List<CommentDtoResponse> modelListToDtoList(List<CommentModel> modelList);
 
-    @Mapping(target = "createDate", ignore = true)
-    @Mapping(target = "lastUpdateDate", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastUpdatedDate", ignore = true)
     @Mapping(target = "news", expression =
             "java(newsRepository.getReference(request.getNewsId()))")
     public abstract CommentModel commentFromDtoRequest(CommentDtoRequest request);
