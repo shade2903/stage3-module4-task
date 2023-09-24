@@ -12,7 +12,7 @@ import java.util.List;
 public class CommentRepositoryImpl extends AbstractDBRepository<CommentModel, Long> implements CommentRepository {
     @Override
     public List<CommentModel> readByNewsId(Long newsId) {
-        TypedQuery<CommentModel> typedQuery = entityManagerFactory.createEntityManager()
+        TypedQuery<CommentModel> typedQuery = entityManager
                 .createQuery("SELECT c FROM Comment c INNER JOIN c.news n WHERE n.id=:newsId", CommentModel.class)
                 .setParameter("newsId", newsId);
         return typedQuery.getResultList();

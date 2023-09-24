@@ -39,7 +39,6 @@ public abstract class  NewsMapper {
 
     @Mapping(source = "author", target = "authorDto")
     @Mapping(source = "tags", target = "tagsDto")
-    @Mapping(source = "comments", target = "commentsDto")
     public abstract NewsDtoResponse newsToDtoResponse(NewsModel model);
 
 

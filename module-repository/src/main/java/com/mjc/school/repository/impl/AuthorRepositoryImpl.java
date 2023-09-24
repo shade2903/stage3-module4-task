@@ -6,14 +6,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class AuthorRepositoryImpl extends AbstractDBRepository<AuthorModel,Long> implements AuthorRepository {
+
     @Override
     public Optional<AuthorModel> readByNewsId(Long newsId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<AuthorModel> typedQuery =  entityManager.createQuery(
                 "SELECT a FROM AuthorModel a INNER JOIN a.news n WHERE n.id=:newsId", AuthorModel.class)
                 .setParameter("newsId", newsId);

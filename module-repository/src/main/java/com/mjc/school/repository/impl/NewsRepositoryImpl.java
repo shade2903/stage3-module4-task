@@ -24,7 +24,7 @@ public class NewsRepositoryImpl extends AbstractDBRepository<NewsModel,Long> imp
 
     @Override
     public List<NewsModel> readBySearchParams(NewsSearchQueryParams searchQueryParams) {
-        CriteriaBuilder criteriaBuilder = entityManagerFactory.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<NewsModel> query = criteriaBuilder.createQuery(NewsModel.class);
         Root<NewsModel> root = query.from(NewsModel.class);
 
@@ -55,7 +55,7 @@ public class NewsRepositoryImpl extends AbstractDBRepository<NewsModel,Long> imp
 
         query.select(root).distinct(true).where(predicates.toArray(new Predicate[0]));
 
-        return entityManagerFactory.createEntityManager().createQuery(query).getResultList();
+        return entityManager.createQuery(query).getResultList();
     }
 
 }

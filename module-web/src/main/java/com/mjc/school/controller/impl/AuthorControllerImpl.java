@@ -1,22 +1,24 @@
 package com.mjc.school.controller.impl;
 
 import com.mjc.school.controller.AuthorController;
+import com.mjc.school.service.AuthorService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
-import com.mjc.school.service.impl.AuthorServiceImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/authors", consumes = {"application/JSON"},
+@RequestMapping(value = "/authors",
         produces = {"application/JSON", "application/XML"})
 public class AuthorControllerImpl implements AuthorController {
 
-    private final AuthorServiceImpl authorService;
+    private final AuthorService authorService;
 
-    public AuthorControllerImpl(AuthorServiceImpl authorService) {
+    @Autowired
+    public AuthorControllerImpl(AuthorService authorService) {
         this.authorService = authorService;
     }
 
@@ -27,27 +29,44 @@ public class AuthorControllerImpl implements AuthorController {
     }
 
     @Override
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<AuthorDtoResponse> readAll() {
-        return null;
+        return authorService.readAll();
     }
 
     @Override
-    public AuthorDtoResponse readById(Long id) {
-        return null;
+    @GetMapping("/{id}")
+    public AuthorDtoResponse readById(@PathVariable Long id) {
+        return authorService.readById(id);
     }
 
     @Override
-    public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
-        return null;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AuthorDtoResponse create(@RequestBody AuthorDtoRequest createRequest) {
+        return authorService.create(createRequest);
     }
 
     @Override
-    public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
-        return null;
+    @PatchMapping
+    @ResponseStatus
+    public AuthorDtoResponse patch(@RequestBody AuthorDtoRequest updateRequest) {
+        return authorService.update(updateRequest);
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        return false;
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public AuthorDtoResponse update(@RequestBody AuthorDtoRequest updateRequest) {
+        System.out.println(updateRequest);
+        return authorService.update(updateRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Override
+    public boolean deleteById(@PathVariable  Long id) {
+        return authorService.deleteById(id);
     }
 }

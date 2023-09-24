@@ -11,10 +11,10 @@ import java.util.List;
 public class TagRepositoryImpl extends AbstractDBRepository<TagModel,Long> implements TagRepository {
     @Override
     public List<TagModel> readByNewsId(Long newsId) {
-        TypedQuery<TagModel> typedQuery = entityManagerFactory.createEntityManager()
+        TypedQuery<TagModel> typedQuery = entityManager
                 .createQuery("SELECT t FROM Tag t INNER JOIN t.news n WHERE n.id=:newsId", TagModel.class)
                 .setParameter("newsId", newsId);
-        return null;
+        return typedQuery.getResultList();
     }
 
     @Override

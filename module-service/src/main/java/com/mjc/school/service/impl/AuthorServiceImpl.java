@@ -13,6 +13,7 @@ import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.AuthorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<AuthorDtoResponse> readAll() {
         return authorMapper.modelListToDtoList(authorRepository.readAll());
 
@@ -41,6 +43,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @ValidateId
+    @Transactional(readOnly = true)
     public AuthorDtoResponse readById(Long id) {
         Optional<AuthorModel> authorModel = authorRepository.readById(id);
         if (authorModel.isPresent()) {
@@ -52,6 +55,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @ValidateParam
+    @Transactional
     public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
         return authorMapper.authorToDtoResponse(
                 authorRepository.create(authorMapper.authorFromDtoRequest(createRequest)));
@@ -59,6 +63,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @ValidateParam
+    @Transactional
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
         if(authorRepository.existById(updateRequest.getId())){
             AuthorModel updateAuthor = authorRepository.update(authorMapper.authorFromDtoRequest(updateRequest));
@@ -70,6 +75,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @ValidateId
+    @Transactional
     public boolean deleteById(Long id) {
         if(authorRepository.existById(id)){
             return authorRepository.deleteById(id);
@@ -79,6 +85,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AuthorDtoResponse readByNewsId(Long newsId) {
         Optional<AuthorModel> authorModel = authorRepository.readById(newsId);
         if (authorModel.isPresent()) {

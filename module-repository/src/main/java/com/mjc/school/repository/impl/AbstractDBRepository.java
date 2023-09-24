@@ -4,8 +4,8 @@ import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.BaseEntity;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
@@ -13,57 +13,49 @@ import java.util.Optional;
 @SuppressWarnings("unchecked")
 public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implements BaseRepository<T, K> {
     private final Class<T> entityClass;
-    @PersistenceUnit
-    protected EntityManagerFactory entityManagerFactory;
+    private final Class<K> idClass;
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     public AbstractDBRepository() {
         ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-        this.entityClass = (Class<T>) type.getActualTypeArguments()[0];
+        entityClass = (Class<T>) type.getActualTypeArguments()[0];
+        idClass = (Class<K>) type.getActualTypeArguments()[1];
     }
 
     abstract void updatedEntityFields(T entity, T updatedEntity);
 
     @Override
     public List<T> readAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.createQuery("SELECT e FROM" + entityClass.getName() + " e ",
-                entityClass).getResultList();
+        TypedQuery<T> query = entityManager.createQuery("SELECT e FROM "
+                + entityClass.getSimpleName() + " e", entityClass);
+        return query.getResultList();
     }
 
     @Override
     public Optional<T> readById(K id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         return Optional.ofNullable(entityManager.find(entityClass, id));
     }
 
     @Override
     public T create(T entity) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
         entityManager.persist(entity);
-        entityManager.getTransaction().commit();
         return entity;
     }
 
     @Override
     public T update(T entity) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
         T updateEntity = entityManager.getReference(entityClass, entity.getId());
         updatedEntityFields(entity, updateEntity);
         entityManager.flush();
-        entityManager.getTransaction().commit();
         return updateEntity;
     }
 
     @Override
     public boolean deleteById(K id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         if(readById(id).isPresent()){
-            entityManager.getTransaction().begin();
             T entity = entityManager.find(entityClass, id);
             entityManager.remove(entity);
-            entityManager.getTransaction().commit();
             return !existById(id);
         }
         return false;
@@ -76,6 +68,6 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
 
     @Override
     public T getReference(K id) {
-        return entityManagerFactory.createEntityManager().getReference(this.entityClass, id);
+        return entityManager.getReference(this.entityClass, id);
     }
 }

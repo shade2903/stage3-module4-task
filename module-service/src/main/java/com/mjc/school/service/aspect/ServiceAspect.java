@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 public class ServiceAspect {
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateId)" +
-            "&& execution(public * com.mjc.school.service.impl.AuthorService.*(..)) && args(id)")
+            "&& execution(public * com.mjc.school.service.impl.AuthorServiceImpl.*(..)) && args(id)")
     public void validateAuthorId(Long id) {
         Validator.validateAuthorId(id);
     }
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateParam) " +
-            "&& execution(public * com.mjc.school.service.impl.AuthorService.*(..))  " +
+            "&& execution(public * com.mjc.school.service.impl.AuthorServiceImpl.*(..))  " +
             "&& args(request)")
     public void validateAuthorDto(AuthorDtoRequest request) {
         Validator.validateAuthorDto(request);
@@ -27,26 +27,26 @@ public class ServiceAspect {
     }
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateId)" +
-            "&& execution(public * com.mjc.school.service.impl.AuthorService.*(..)) && args(id)")
+            "&& execution(public * com.mjc.school.service.impl.AuthorServiceImpl.*(..)) && args(id)")
     public void validateNewsId(Long id) {
         Validator.validateNewsId(id);
     }
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateParam) " +
-            "&& execution(public * com.mjc.school.service.impl.NewsService.*(..))" +
+            "&& execution(public * com.mjc.school.service.impl.NewsServiceImpl.*(..))" +
             "&& args(request)")
     public void validateNewsDto(NewsDtoRequest request) {
         Validator.validateNewsDto(request);
     }
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateId)" +
-            "&& execution(public * com.mjc.school.service.impl.TagService.*(..)) && args(id)")
+            "&& execution(public * com.mjc.school.service.impl.TagServiceImpl.*(..)) && args(id)")
     public void validateTagId(Long id) {
         Validator.validateTagId(id);
     }
 
     @Before("@annotation(com.mjc.school.service.annotation.ValidateParam) " +
-            "&& execution(public * com.mjc.school.service.impl.TagService.*(..))  " +
+            "&& execution(public * com.mjc.school.service.impl.TagServiceImpl.*(..))  " +
             "&& args(request)")
     public void validateTagDto(TagDtoRequest request) {
         Validator.validateTagDto(request);
