@@ -45,10 +45,12 @@ public abstract class AbstractDBRepository<T extends BaseEntity<K>, K> implement
 
     @Override
     public T update(T entity) {
-        T updateEntity = entityManager.getReference(entityClass, entity.getId());
-        updatedEntityFields(entity, updateEntity);
-        entityManager.flush();
-        return updateEntity;
+       return readById(entity.getId()).map(existingEntity ->{
+           updatedEntityFields(existingEntity, entity);
+           T updated = entityManager.merge(existingEntity);
+           entityManager.flush();
+           return updated;
+       }).orElse(null);
     }
 
     @Override
