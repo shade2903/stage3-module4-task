@@ -31,7 +31,7 @@ subprojects {
         // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
         implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
-
+        testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootStarterTest"
         testImplementation "org.springframework:spring-test:$springVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
