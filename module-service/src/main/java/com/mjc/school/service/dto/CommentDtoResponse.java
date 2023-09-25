@@ -7,9 +7,10 @@ public class CommentDtoResponse {
     private Long id;
     private String name;
 
-    private LocalDateTime createDate;
 
-    private LocalDateTime lastUpdateDate;
+    private LocalDateTime createdDate;
+
+    private LocalDateTime lastUpdatedDate;
 
     private NewsDtoResponse newsDto;
 
@@ -23,8 +24,8 @@ public class CommentDtoResponse {
                               NewsDtoResponse newsDto) {
         this.id = id;
         this.name = name;
-        this.createDate = createDate;
-        this.lastUpdateDate = lastUpdateDate;
+        this.createdDate = createDate;
+        this.lastUpdatedDate = lastUpdateDate;
         this.newsDto = newsDto;
     }
 
@@ -44,20 +45,20 @@ public class CommentDtoResponse {
         this.name = name;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
+    public LocalDateTime getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
-    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
+    public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public NewsDtoResponse getNewsDto() {
@@ -74,14 +75,14 @@ public class CommentDtoResponse {
         if (!(o instanceof CommentDtoResponse that)) return false;
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(createDate, that.createDate) &&
-                Objects.equals(lastUpdateDate, that.lastUpdateDate) &&
+                Objects.equals(createdDate, that.createdDate) &&
+                Objects.equals(lastUpdatedDate, that.lastUpdatedDate) &&
                 Objects.equals(newsDto, that.newsDto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, createDate, lastUpdateDate, newsDto);
+        return Objects.hash(id, name, createdDate, lastUpdatedDate, newsDto);
     }
 
     @Override
@@ -89,8 +90,8 @@ public class CommentDtoResponse {
         return "CommentDtoResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", createDate=" + createDate +
-                ", lastUpdateDate=" + lastUpdateDate +
+                ", createDate=" + createdDate +
+                ", lastUpdateDate=" + lastUpdatedDate +
                 ", newsDto=" + newsDto +
                 '}';
     }

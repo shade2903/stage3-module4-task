@@ -49,16 +49,16 @@ public class AuthorControllerImpl implements AuthorController {
     }
 
     @Override
-    @PatchMapping
+    @PatchMapping("/{id}")
     @ResponseStatus
-    public AuthorDtoResponse patch(@RequestBody AuthorDtoRequest updateRequest) {
+    public AuthorDtoResponse patch(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
         return authorService.update(updateRequest);
     }
 
     @Override
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AuthorDtoResponse update(@RequestBody AuthorDtoRequest updateRequest) {
+    public AuthorDtoResponse update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
         System.out.println(updateRequest);
         return authorService.update(updateRequest);
     }
