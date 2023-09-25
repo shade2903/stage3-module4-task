@@ -63,7 +63,7 @@ public class TagControllerImpl implements TagController {
     }
 
     @Override
-    @GetMapping("/news_id/{newsId}")
+    @GetMapping("/news/{newsId}")
     @ResponseStatus(HttpStatus.OK)
     public List<TagDtoResponse> readByNewsId(@PathVariable Long newsId) {
         return tagService.readByNewsId(newsId);

@@ -14,6 +14,7 @@ import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,12 +32,14 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TagDtoResponse> readAll(int page, int size, String sortBy) {
         return tagMapper.modelListToDtoListResponse(tagRepository.readAll(page, size, sortBy));
     }
 
     @Override
     @ValidateId
+    @Transactional(readOnly = true)
     public TagDtoResponse readById(Long id) {
         Optional<TagModel> tagModel = tagRepository.readById(id);
         if(tagModel.isPresent()){
@@ -47,6 +50,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @ValidateParam
+    @Transactional
     public TagDtoResponse create(TagDtoRequest createRequest) {
         return tagMapper.tagToDtoResponse(
                 tagRepository.create(tagMapper.tagFromDtoRequest(createRequest)));
@@ -54,6 +58,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @ValidateParam
+    @Transactional
     public TagDtoResponse update(TagDtoRequest updateRequest) {
         if(tagRepository.existById(updateRequest.getId())){
             TagModel tagModel = tagRepository.update(tagMapper.tagFromDtoRequest(updateRequest));
@@ -65,6 +70,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @ValidateId
+    @Transactional
     public boolean deleteById(Long id) {
         if(tagRepository.existById(id)){
             return tagRepository.deleteById(id);
@@ -74,6 +80,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TagDtoResponse> readByNewsId(Long newsId) {
         return tagMapper.modelListToDtoListResponse(tagRepository.readByNewsId(newsId));
     }

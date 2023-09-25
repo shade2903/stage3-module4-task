@@ -87,7 +87,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional(readOnly = true)
     public AuthorDtoResponse readByNewsId(Long newsId) {
-        Optional<AuthorModel> authorModel = authorRepository.readById(newsId);
+        Optional<AuthorModel> authorModel = authorRepository.readByNewsId(newsId);
         if (authorModel.isPresent()) {
             return authorMapper.authorToDtoResponse(authorModel.get());
         }

@@ -23,7 +23,7 @@ public class AuthorControllerImpl implements AuthorController {
 
 
     @Override
-    @GetMapping("/news_id/{newsId}")
+    @GetMapping("/news/{newsId}")
     @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse readByIdNews(@PathVariable Long newsId) {
         return authorService.readByNewsId(newsId);

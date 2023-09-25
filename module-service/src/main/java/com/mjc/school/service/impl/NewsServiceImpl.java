@@ -17,6 +17,7 @@ import com.mjc.school.service.mapper.NewsMapper;
 import com.mjc.school.service.query.NewsQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,12 +36,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<NewsDtoResponse> readAll(int page, int size, String sortBy) {
         return newsMapper.modelListToDtoList(newsRepository.readAll(page,size,sortBy));
     }
 
     @Override
     @ValidateId
+    @Transactional(readOnly = true)
     public NewsDtoResponse readById(Long id) {
         Optional<NewsModel> newsModel = newsRepository.readById(id);
         if (newsModel.isPresent()) {
@@ -52,6 +55,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @ValidateParam
+    @Transactional
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
         if (!authorRepository.existById(createRequest.getAuthorId())) {
             throw new NotFoundException(
@@ -63,6 +67,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @ValidateParam
+    @Transactional
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
         if (!authorRepository.existById(updateRequest.getAuthorId())) {
             throw new NotFoundException(
@@ -78,6 +83,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @ValidateId
+    @Transactional
     public boolean deleteById(Long id) {
         if (newsRepository.existById(id)) {
 
@@ -88,6 +94,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<NewsDtoResponse> readBySearchParams(NewsQueryParams queryParams) {
         NewsSearchQueryParams newsSearchQueryParams = new NewsSearchQueryParams(
                 queryParams.tagNames(),

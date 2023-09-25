@@ -13,6 +13,7 @@ import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,12 +30,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentDtoResponse> readAll(int page, int size, String sortBy) {
         return commentMapper.modelListToDtoList(commentRepository.readAll(page,size,sortBy));
     }
 
     @Override
     @ValidateId
+    @Transactional(readOnly = true)
     public CommentDtoResponse readById(Long id) {
         Optional<CommentModel> commentModel = commentRepository.readById(id);
         if(commentModel.isPresent()){
@@ -45,6 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @ValidateParam
+    @Transactional
     public CommentDtoResponse create(CommentDtoRequest createRequest) {
         return commentMapper.commentToDtoResponse(
                 commentRepository.create(commentMapper.commentFromDtoRequest(createRequest)));
@@ -52,6 +56,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @ValidateParam
+    @Transactional
     public CommentDtoResponse update(CommentDtoRequest updateRequest) {
         if(commentRepository.existById(updateRequest.getId())){
             CommentModel commentModel = commentRepository.update(commentMapper.commentFromDtoRequest(updateRequest));
@@ -62,6 +67,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public boolean deleteById(Long id) {
         if(commentRepository.existById(id)){
             return commentRepository.deleteById(id);
@@ -71,6 +77,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentDtoResponse> readByNewsId(Long newsId) {
         return commentMapper.modelListToDtoList(commentRepository.readByNewsId(newsId));
     }
