@@ -7,11 +7,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@Configuration
-//@EnableTransactionManagement
-//@EnableJpaAuditing
-//@EnableAspectJAutoProxy
-////@ComponentScan("com.mjc.school.*")
-////@EntityScan(basePackages = "com.mjc.school.repository.model")
-//public class RepositoryConfig {
-//}
+@Configuration
+@EnableJpaAuditing
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
+@ComponentScan("com.mjc.school.*")
+@EntityScan(basePackages = "com.mjc.school.repository.model")
+public class RepositoryConfig {
+}

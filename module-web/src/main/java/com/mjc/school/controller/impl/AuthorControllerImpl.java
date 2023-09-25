@@ -23,8 +23,10 @@ public class AuthorControllerImpl implements AuthorController {
 
 
     @Override
-    public AuthorDtoResponse readByIdNews(Long newsId) {
-        return null;
+    @GetMapping("/news_id/{newsId}")
+    @ResponseStatus(HttpStatus.OK)
+    public AuthorDtoResponse readByIdNews(@PathVariable Long newsId) {
+        return authorService.readByNewsId(newsId);
     }
 
     @Override
@@ -38,6 +40,7 @@ public class AuthorControllerImpl implements AuthorController {
 
     @Override
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse readById(@PathVariable Long id) {
         return authorService.readById(id);
     }
@@ -51,7 +54,7 @@ public class AuthorControllerImpl implements AuthorController {
 
     @Override
     @PatchMapping("/{id}")
-    @ResponseStatus
+    @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse patch(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
         return authorService.update(updateRequest);
     }
@@ -60,7 +63,6 @@ public class AuthorControllerImpl implements AuthorController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AuthorDtoResponse update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
-        System.out.println(updateRequest);
         return authorService.update(updateRequest);
     }
 
