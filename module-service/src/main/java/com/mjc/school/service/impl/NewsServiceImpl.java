@@ -35,8 +35,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<NewsDtoResponse> readAll() {
-        return newsMapper.modelListToDtoList(newsRepository.readAll());
+    public List<NewsDtoResponse> readAll(int page, int size, String sortBy) {
+        return newsMapper.modelListToDtoList(newsRepository.readAll(page,size,sortBy));
     }
 
     @Override

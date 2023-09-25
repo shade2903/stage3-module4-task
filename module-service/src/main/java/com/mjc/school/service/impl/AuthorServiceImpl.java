@@ -36,8 +36,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AuthorDtoResponse> readAll() {
-        return authorMapper.modelListToDtoList(authorRepository.readAll());
+    public List<AuthorDtoResponse> readAll(int page, int size, String sortBy) {
+        return authorMapper.modelListToDtoList(authorRepository.readAll(page,size,sortBy));
 
     }
 

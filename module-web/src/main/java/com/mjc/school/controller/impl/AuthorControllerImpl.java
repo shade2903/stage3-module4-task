@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/authors",
-        produces = {"application/JSON", "application/XML"})
+@RequestMapping(value = "/authors")
 public class AuthorControllerImpl implements AuthorController {
 
     private final AuthorService authorService;
@@ -31,8 +30,10 @@ public class AuthorControllerImpl implements AuthorController {
     @Override
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AuthorDtoResponse> readAll() {
-        return authorService.readAll();
+    public List<AuthorDtoResponse> readAll(@RequestParam(defaultValue = "1", required = false) int page,
+                                           @RequestParam(defaultValue = "10", required = false) int size,
+                                           @RequestParam(name = "sort_by", defaultValue = "id::asc", required = false) String sortBy) {
+        return authorService.readAll(page,size,sortBy);
     }
 
     @Override
