@@ -11,10 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/comments")
-public class CommentControllerImpl implements CommentController {
+public class CommentRestController implements CommentController {
     private final CommentService commentService;
 
-    public CommentControllerImpl(CommentService commentService) {
+    public CommentRestController(CommentService commentService) {
         this.commentService = commentService;
     }
 
@@ -45,21 +45,21 @@ public class CommentControllerImpl implements CommentController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDtoResponse update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
-        return null;
+        return commentService.update(updateRequest);
     }
 
     @Override
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDtoResponse patch(@PathVariable Long id,@RequestBody CommentDtoRequest updateRequest) {
-        return null;
+        return commentService.update(updateRequest);
     }
 
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteById(@PathVariable Long id) {
-        return commentService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        commentService.deleteById(id);
     }
 
     @Override

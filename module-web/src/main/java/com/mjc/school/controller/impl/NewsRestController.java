@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping(value = "/news")
-public class NewsControllerImpl implements NewsController {
+public class NewsRestController implements NewsController {
     private final NewsService newsService;
 
     @Autowired
-    public NewsControllerImpl(NewsService newsService) {
+    public NewsRestController(NewsService newsService) {
         this.newsService = newsService;
     }
 
@@ -59,8 +59,8 @@ public class NewsControllerImpl implements NewsController {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteById(@PathVariable Long id) {
-        return false;
+    public void deleteById(@PathVariable Long id) {
+        newsService.deleteById(id);
     }
 
     @Override

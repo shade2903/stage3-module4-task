@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/authors")
-public class AuthorControllerImpl implements AuthorController {
+public class AuthorRestController implements AuthorController {
 
     private final AuthorService authorService;
 
     @Autowired
-    public AuthorControllerImpl(AuthorService authorService) {
+    public AuthorRestController(AuthorService authorService) {
         this.authorService = authorService;
     }
 
@@ -69,7 +69,7 @@ public class AuthorControllerImpl implements AuthorController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public boolean deleteById(@PathVariable  Long id) {
-        return authorService.deleteById(id);
+    public void deleteById(@PathVariable  Long id) {
+        authorService.deleteById(id);
     }
 }

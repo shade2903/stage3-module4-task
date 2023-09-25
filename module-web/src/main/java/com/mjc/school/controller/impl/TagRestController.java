@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping(value = "/tags")
-public class TagControllerImpl implements TagController {
+public class TagRestController implements TagController {
     private final TagService tagService;
 
-    public TagControllerImpl(TagService tagService) {
+    public TagRestController(TagService tagService) {
         this.tagService = tagService;
     }
 
@@ -58,8 +58,8 @@ public class TagControllerImpl implements TagController {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteById(Long id) {
-        return tagService.deleteById(id);
+    public void deleteById(@PathVariable Long id) {
+        tagService.deleteById(id);
     }
 
     @Override
