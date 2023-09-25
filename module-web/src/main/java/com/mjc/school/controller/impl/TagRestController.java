@@ -43,14 +43,14 @@ public class TagRestController implements TagController {
     @Override
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TagDtoResponse update(@PathVariable Long id, TagDtoRequest updateRequest) {
+    public TagDtoResponse update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
         return tagService.update(updateRequest);
     }
 
     @Override
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TagDtoResponse patch(@PathVariable Long id, TagDtoRequest updateRequest) {
+    public TagDtoResponse patch(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
         return tagService.update(updateRequest);
     }
 
