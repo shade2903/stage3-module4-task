@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/authors")
+@RequestMapping(value = "api/v1/authors",
+        produces = {"application/JSON", "application/XML"})
 public class AuthorRestController implements AuthorController {
 
     private final AuthorService authorService;

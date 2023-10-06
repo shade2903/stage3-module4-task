@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping(value = "/news")
+@RequestMapping(value = "api/v1/news",
+        produces = {"application/JSON", "application/XML"})
 public class NewsRestController implements NewsController {
     private final NewsService newsService;
 

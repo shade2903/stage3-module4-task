@@ -1,17 +1,14 @@
 package com.mjs.school.controller;
 
-import com.mjc.school.controller.AuthorController;
-import com.mjc.school.service.AuthorService;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.Test;
 
-@ExtendWith(MockitoExtension.class)
-public class AuthorRestControllerTest {
-    @Mock
-    AuthorService authorService;
 
-    @InjectMocks
-    AuthorController authorController;
+import static io.restassured.RestAssured.given;
+
+
+public class AuthorRestControllerTest extends FunctionalTest {
+    @Test
+    public void basicPingTest() {
+        given().when().get("http://localhost/8080/api/v1/author").then().statusCode(200);
+    }
 }
