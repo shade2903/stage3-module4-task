@@ -12,7 +12,7 @@ public class TagRepositoryImpl extends AbstractDBRepository<TagModel,Long> imple
     @Override
     public List<TagModel> readByNewsId(Long newsId) {
         TypedQuery<TagModel> typedQuery = entityManager
-                .createQuery("SELECT t FROM Tag t INNER JOIN t.news n WHERE n.id=:newsId", TagModel.class)
+                .createQuery("SELECT t FROM TagModel t INNER JOIN t.news n WHERE n.id=:newsId", TagModel.class)
                 .setParameter("newsId", newsId);
         return typedQuery.getResultList();
     }

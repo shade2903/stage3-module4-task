@@ -1,10 +1,19 @@
 package com.mjs.school.controller;
 
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeAll;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 
+import java.util.Properties;
+
 public class FunctionalTest {
-    @BeforeTestClass
+
+    @BeforeAll
     public static void setup() {
         String port = System.getProperty("server.port");
         if (port == null) {

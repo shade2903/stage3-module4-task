@@ -1,13 +1,13 @@
 package com.mjc.school.service.exception;
 
 public enum ErrorCode {
-    NOT_FOUND_DATA(Constants.ERROR_400,"%s with id %d does not exist."),
-    VALIDATE_STRING_LENGTH(Constants.ERROR_404, "%s can not be less than %d and more than %d symbols. %s is %s"),
+    NOT_FOUND_DATA(Constants.ERROR_404,"%s with id %d does not exist."),
+    VALIDATE_STRING_LENGTH(Constants.ERROR_400, "%s can not be less than %d and more than %d symbols. %s is %s"),
     VALIDATE_STRING_NULL(Constants.ERROR_400, "%s can not be null. %s is null"),
 
-    VALIDATE_NEGATIVE_OR_NULL_NUMBER(Constants.ERROR_404, "%s can not be null or less than 1. %s is: %s"),
+    VALIDATE_NEGATIVE_OR_NULL_NUMBER(Constants.ERROR_400, "%s can not be null or less than 1. %s is: %s"),
 
-    VALIDATE_INT_VALUE(Constants.ERROR_404,"%s should be number");
+    VALIDATE_INT_VALUE(Constants.ERROR_400,"%s should be number");
 
 
     private final String errorMessage;

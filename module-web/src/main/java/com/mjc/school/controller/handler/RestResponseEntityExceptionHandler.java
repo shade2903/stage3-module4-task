@@ -12,11 +12,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+    private HttpStatus httpStatus;
 
     @ExceptionHandler(value = {InvalidDataException.class, NotFoundException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request){
+        if(ex instanceof InvalidDataException){
+            httpStatus = HttpStatus.BAD_REQUEST;
+        }else{
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
         return handleExceptionInternal(ex, ex.getMessage(),
-                new HttpHeaders(), HttpStatus.CONFLICT,request);
+                new HttpHeaders(), httpStatus,request);
+
 
     }
+
 }

@@ -4,6 +4,7 @@ import com.mjc.school.controller.NewsController;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
+import com.mjc.school.service.query.NewsQueryParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -67,11 +68,11 @@ public class NewsRestController implements NewsController {
     @Override
     @GetMapping("/param")
     @ResponseStatus(HttpStatus.OK)
-    public List<NewsDtoResponse> readBySearchParams(List<Integer> tagIds,
-                                                    List<String> tagNames,
-                                                    String author,
-                                                    String title,
-                                                    String content) {
-        return null;
+    public List<NewsDtoResponse> readBySearchParams(@RequestParam(value = "tag-id", required = false) List<Integer> tagIds,
+                                                    @RequestParam(value = "tag-names", required = false) List<String> tagNames,
+                                                    @RequestParam(value = "author", required = false) String author,
+                                                    @RequestParam(value = "title", required = false) String title,
+                                                    @RequestParam(value = "content", required = false) String content) {
+        return newsService.readBySearchParams(new NewsQueryParams(tagNames,tagIds,author,title,content));
     }
 }

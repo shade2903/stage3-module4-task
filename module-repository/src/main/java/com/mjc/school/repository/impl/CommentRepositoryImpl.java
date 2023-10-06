@@ -13,7 +13,7 @@ public class CommentRepositoryImpl extends AbstractDBRepository<CommentModel, Lo
     @Override
     public List<CommentModel> readByNewsId(Long newsId) {
         TypedQuery<CommentModel> typedQuery = entityManager
-                .createQuery("SELECT c FROM Comment c INNER JOIN c.news n WHERE n.id=:newsId", CommentModel.class)
+                .createQuery("SELECT c FROM CommentModel c INNER JOIN c.news n WHERE n.id=:newsId", CommentModel.class)
                 .setParameter("newsId", newsId);
         return typedQuery.getResultList();
     }
