@@ -21,8 +21,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }else{
             httpStatus = HttpStatus.NOT_FOUND;
         }
-        return handleExceptionInternal(ex, ex.getMessage(),
-                new HttpHeaders(), httpStatus,request);
+        return handleExceptionInternal(ex,
+                ex.getMessage(),
+                new HttpHeaders(),
+                httpStatus,request);
 
 
     }
