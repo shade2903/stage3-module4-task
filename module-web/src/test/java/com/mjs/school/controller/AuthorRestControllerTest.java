@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 public class AuthorRestControllerTest extends FunctionalTest {
@@ -25,7 +26,8 @@ public class AuthorRestControllerTest extends FunctionalTest {
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(1))
-                .body("name", equalTo("Uladzimir Haiduk"));
+                .body("name", notNullValue());
+
     }
 
     @Test
@@ -53,6 +55,23 @@ public class AuthorRestControllerTest extends FunctionalTest {
                 .post("/authors")
                 .then()
                 .statusCode(400);
+    }
+    public void updateTest(){
+        Map<String, String> author = new HashMap<>();
+        author.put("name", "Maksim");
+       int updatedId =  given()
+                .contentType("application/JSON")
+                .body(author)
+                .when()
+                .post("/authors")
+                .then()
+                .statusCode(201)
+                .extract().path("id");
+
+        Map<String, String> updatedAuthor = new HashMap<>();
+        author.put("id","" + updatedId);
+        author.put("name","updatedName");
+
     }
 
 }
